@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PointPlusActivity">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_check_circle_outline_black_48"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/tx_berhasil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Berhasil"
+        android:layout_below="@id/img"
+        android:layout_centerHorizontal="true"
+        android:textSize="35sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/tx_point"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tx_berhasil"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100 point telah"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/tx_plus"
+        android:layout_below="@id/tx_point"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ditambahkan"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/ID"
+        android:layout_below="@id/tx_plus"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID QR CODE"
+        android:textSize="30sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/id_barcode"
+        android:layout_below="@id/ID"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID QR CODE"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"/>
+
+</RelativeLayout>
