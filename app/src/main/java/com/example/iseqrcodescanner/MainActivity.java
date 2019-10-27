@@ -23,6 +23,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,13 +46,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cob.cob3_1_2.api.app.LoginHelper;
 import cob.cob3_1_2.api.app.ParamGenerator;
 import cob.cob3_1_2.api.pref._Alias;
 import cob.cob3_1_2.api.util.FileTool;
-
-//import static com.giviews.qrcodescanner.MainActivity.REQUEST_CODE;
-
-
 
 public class MainActivity extends AppCompatActivity {
     SurfaceView cameraView;
@@ -62,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
     String user;
     Boolean udahDiscan=false;
     TextView tx;
-
+    RelativeLayout loadingPage;
 
     @Override
     protected void onResume() {
         super.onResume();
-        udahDiscan=false;
+        loadingPage = findViewById(R.id.loading_page);
+        udahDiscan(false);
 
         tx= findViewById(R.id.tx_startup);
         cameraView = (SurfaceView) findViewById(R.id.cameraView);
@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         barcode = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
-
 
         if (!barcode.isOperational()) {
             Toast.makeText(getApplicationContext(), "Sorry couldn't setup the detector", Toast.LENGTH_LONG).show();
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         navView = findViewById(R.id.botNav);
 
-        switch (getIntent().getStringExtra("userLevel")){
+        switch (getIntent().getStringExtra("userLevel").toUpperCase()){
             case Peran.GAME:
                 tx.setVisibility(View.GONE);
                 navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -123,13 +122,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.navigation_add:
-                                scanBarcode(PointPlusActivity.class, "plusURL", barcode, cameraSource);
+                                scanBarcode(PointPlusActivity.class, Peran.PLUS_URL, barcode, cameraSource);
                                 break;
                             case R.id.navigation_minus:
                                 Toast.makeText(MainActivity.this, "sorry you can't access this", Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.navigation_check:
-                                scanBarcode(PointPlusActivity.class, "cekURL", barcode, cameraSource);
+                                scanBarcode(PointPlusActivity.class, Peran.CEK_URL, barcode, cameraSource);
                                 break;
                         }
                         return true;
@@ -146,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "sorry you can't access this", Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.navigation_minus:
-                                scanBarcode(PointPlusActivity.class, "minusURL", barcode, cameraSource);
+                                scanBarcode(PointPlusActivity.class, Peran.MINUS_URL, barcode, cameraSource);
                                 break;
                             case R.id.navigation_check:
-                                scanBarcode(PointPlusActivity.class, "cekURL", barcode, cameraSource);
+                                scanBarcode(PointPlusActivity.class, Peran.CEK_URL, barcode, cameraSource);
                                 break;
                         }
                         return true;
@@ -158,25 +157,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Peran.STARTUP:
                 navView.setVisibility(View.GONE);
-                scanBarcode(PointPlusActivity.class, "startupURL", barcode, cameraSource);
+                scanBarcode(PointPlusActivity.class, Peran.PLUS_URL, barcode, cameraSource);
                 break;
         }
-
-        /*navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.navigation_add:
-                        break;
-                    case R.id.navigation_minus:
-                        break;
-                    case R.id.navigation_check:
-                        scanBarcode(PointPlusActivity.class, "cekURL");
-                        break;
-                }
-                return true;
-            }
-        });*/
     }
 
     @Override
@@ -186,22 +169,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
-        if(getIntent().getStringExtra("userLevel").equals(Peran.STARTUP)){
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu_main, menu);
-            return true;
+        int menuID;
+        if(getIntent().getStringExtra("userLevel").toUpperCase().equals(Peran.STARTUP)){
+           menuID = R.menu.menu_main;
         }else {
-            return false;
+            menuID= R.menu.menu_main2;
         }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(menuID, menu);
+
+        return true;
 
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.cek_point:
-                Intent i = new Intent(this, PointPlusActivity.class);
+                Intent i = new Intent(this, CekPointStartupActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.log_out:
+                String logoutUrl= ParamGenerator.Companion.keluar();
+                requestServer(logoutUrl, null, Peran.LOG_OUT);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -237,47 +226,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void scanBarcode(final Class conDestination, final String jenisUrl, final BarcodeDetector barcode, final CameraSource cameraSource){
-        /*cameraView = (SurfaceView) findViewById(R.id.cameraView);
-        surfaceHolder = cameraView.getHolder();
-
-        barcode = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
-
-        if (!barcode.isOperational()) {
-            Toast.makeText(getApplicationContext(), "Sorry couldn't setup the detector", Toast.LENGTH_LONG).show();
-            this.finish();
-        }
-
-        cameraSource = new CameraSource.Builder(this, barcode)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedFps(24)
-                .setAutoFocusEnabled(true)
-                .setRequestedPreviewSize(1920,1080)
-                .build();
-
-        cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                try {
-                    cameraSource.start(cameraView.getHolder());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-            }
-        });*/
-
        barcode.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
@@ -290,29 +238,27 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if(barcode.size() == 1 && !udahDiscan){
-                    udahDiscan=true;
-
-                    //cameraSource.release();
-                    //final Barcode barcode1= barcode.get(barcode.keyAt(0));
-
+                    udahDiscan= true;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            udahDiscan(true);
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(200);
 //                            ambilBitmap(barcode1.getBoundingBox());
-
                             String valueID = barcode.valueAt(0).displayValue;
-                            if (jenisUrl.equals("plusURL")) {
+                            if (jenisUrl.equals(Peran.PLUS_URL)) {
                                 String url =ParamGenerator.Companion.scanUrl(valueID);
-                                requestServer(url, valueID);
-                            } else if (jenisUrl.equals("cekURL")) {
+                                requestServer(url, valueID, Peran.PLUS_POINT);
+                            } else if (jenisUrl.equals(Peran.CEK_URL)) {
                                 String url =ParamGenerator.Companion.cekUrl(valueID);
-                                requestServer(url, valueID);
-                            } else if (jenisUrl.equals("minusURL")){
-                                Intent i = new Intent(MainActivity.this, PointMinusActivity.class);
+                                requestServer(url, valueID, Peran.CEK_POINT);
+                            } else if (jenisUrl.equals(Peran.MINUS_URL)){
+                                String url =ParamGenerator.Companion.cekUrl(valueID);
+                                requestServer(url, valueID, Peran.MINUS_URL);
+                                /*Intent i = new Intent(MainActivity.this, PointMinusActivity.class);
                                 i.putExtra("idMinus", valueID);
-                                startActivity(i);
+                                startActivity(i);*/
                             }
                         }
                     });
@@ -321,26 +267,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void requestServer(String url, final String valueID){
+    public void requestServer(String url, final String valueID, final String jenis){
+//        Toast.makeText(MainActivity.this, url, Toast.LENGTH_LONG).show();
         RequestQueue requestQueue= Volley.newRequestQueue(MainActivity.this);
         StringRequest request= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {/*
-                        loginHelper= new LoginHelper(new LoginHelper.LoginHelperListener() {
-                            @Override
-                            public boolean onLogin(@Nullable String tokenDariFile) {
-                                return false;
-                            }
-                        });*/
+                    public void onResponse(String response) {
+                        //Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
                         try{
-                            if(response.equals(_Alias.Companion.respon("ya"))){
+                            if(response.equals("UDAH_ADA")){
+                                Toast.makeText(MainActivity.this, "You have scanned this visitor", Toast.LENGTH_LONG).show();
+                                udahDiscan(false);
+                            } else if(jenis.equals(Peran.LOG_OUT)) {
+                                LoginHelper.Companion.hapusTokenPeran();
+                                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(i);
+                                finish();
+                            }else if(jenis.equals(Peran.MINUS_URL)){
+                                Intent i = new Intent(MainActivity.this, PointMinusActivity.class);
+                                i.putExtra("idMinus", valueID);
+                                i.putExtra("value_point", response);
+                                startActivity(i);
+                            } else if(!response.equals(_Alias.Companion.respon("gak"))){
                                 Intent i = new Intent(MainActivity.this, PointPlusActivity.class);
                                 i.putExtra("idBarcode", valueID);
+                                i.putExtra("value_point", response);
+                                i.putExtra("jenisCek", jenis );
                                 startActivity(i);
+                            }else{
+                                udahDiscan(false);
                             }
                         }catch (Exception e){
-
+                            udahDiscan(false);
+                            Toast.makeText(MainActivity.this, "error", Toast.LENGTH_LONG).show();
                         }
                         //Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
                     }
@@ -348,9 +308,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, "sorry couldn't connect to server", Toast.LENGTH_LONG).show();
+                udahDiscan(false);
                 error.printStackTrace();
             }
         });
         requestQueue.add(request);
+    }
+
+    public void udahDiscan(boolean udah){
+        udahDiscan =udah;
+        if(udah){
+            loadingPage.setVisibility(View.VISIBLE);
+        }else {
+            loadingPage.setVisibility(View.GONE);
+        }
     }
 }

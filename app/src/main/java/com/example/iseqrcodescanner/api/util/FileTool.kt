@@ -128,5 +128,13 @@ class FileTool{
                 return null
             }
         }
+
+        fun hapusFile(pathFile: String): Boolean{
+            val file= File(pathFile)
+            return hapusFile(file)
+        }
+        fun hapusFile(file: File): Boolean{
+            return file.delete()
+        }
     }
 }

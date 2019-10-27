@@ -1,5 +1,6 @@
 package cob.cob3_1_2.api.app
 
+import android.util.Log
 import cob.cob3_1_2.api.pref._Alias
 import cob.cob3_1_2.api.util.FileTool
 
@@ -19,7 +20,15 @@ class ParamGenerator{
         }
 
         fun ambilPeranLokal(): String?{
+            return FileTool.bacaLnDariFile(_Alias.loginDir, 3)
+        }
+
+        fun ambilIdLokal(): String?{
             return FileTool.bacaLnDariFile(_Alias.loginDir, 1)
+        }
+
+        fun ambilUnameLokal(): String?{
+            return FileTool.bacaLnDariFile(_Alias.loginDir, 2)
         }
 
 
@@ -28,6 +37,9 @@ class ParamGenerator{
             val token= ambilTokenLokal() ?: return null
 
             val hambaInd= keyPointerStr[1].toString()
+            Log.e("TES","hambaInd= " +hambaInd)
+            Log.e("TES", "indexOf= " +_Alias.tabela.indexOf(hambaInd))
+            Log.e("TES", "token length= " +token.length)
             val hambaK= token[_Alias.tabela.indexOf(hambaInd)].toString()
 
             val hambaNama= _Alias.lain[2]
@@ -111,7 +123,7 @@ class ParamGenerator{
             val token= ambilTokenLokal() ?: return null
             val idUserTujuanEn= userTujuanEn(idUserTujuan)
 
-            return "${_Alias.URL_SCAN}/?${_Alias.lain[0]}=$token&$idUserTujuanEn"
+            return "${_Alias.URL_CEK}/?${_Alias.lain[0]}=$token&$idUserTujuanEn"
         }
         fun liatUrl(jenisDaftar: String): String? {
             val token= ambilTokenLokal() ?: return null

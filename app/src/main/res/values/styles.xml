@@ -41,13 +41,14 @@
     </style>
 
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar.Solid">
-        <item name="android:background">@color/transparent_black</item>
+        <item name="android:background">@color/transparent_color_primary</item>
         <!--For compatibility-->
-        <item name="background">@color/transparent_black</item>
+        <item name="background">@color/transparent_color_primary</item>
     </style>
 
     <!-- NO ACTION BAR -->
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--item name="android:background">@color/colorWhite</item-->
     </style>
 

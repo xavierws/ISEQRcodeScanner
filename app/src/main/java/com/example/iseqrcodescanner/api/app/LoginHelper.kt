@@ -5,9 +5,15 @@ import cob.cob3_1_2.api.util.FileTool
 
 class LoginHelper{
     companion object{
-        fun simpanTokenPeran(token: String, peran: String): Boolean{
-            var hasil= FileTool.simpan(_Alias.loginDir, token, false)
-            return hasil and FileTool.simpanln(_Alias.loginDir, token, true) //.simpan(_Alias.loginDir, token, false)
+        fun simpanTokenPeran(token: String, id: String, uname: String, peran: String): Boolean{
+            val hasilToken= FileTool.simpanln(_Alias.loginDir, token, false)
+            val hasilId= FileTool.simpanln(_Alias.loginDir, id, true)
+            val hasilUname= FileTool.simpanln(_Alias.loginDir, uname, true)
+            return hasilToken and hasilId and hasilUname and FileTool.simpanln(_Alias.loginDir, peran, true) //.simpan(_Alias.loginDir, token, false)
+        }
+
+        fun hapusTokenPeran(): Boolean{
+            return FileTool.hapusFile(_Alias.loginDir)
         }
     }
 /*
