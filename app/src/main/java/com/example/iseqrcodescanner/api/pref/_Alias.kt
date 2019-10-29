@@ -17,7 +17,7 @@ class _Alias{
         val appDir= Environment.getExternalStorageDirectory().absolutePath + "/$appName"
         val loginDir= "$appDir/login/axc.ise"
 
-        val URL_DOMAIN= "https://ise-its.000webhostapp.com" //"https://playground.icon.ise-its.com"
+        val URL_DOMAIN= "https://playground.icon.ise-its.com"
         val URL_SCAN= "$URL_DOMAIN/scan"
         val URL_CEK= "$URL_DOMAIN/cek"
         val URL_TUKAR= "$URL_DOMAIN/tukar"

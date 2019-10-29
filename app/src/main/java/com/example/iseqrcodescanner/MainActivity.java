@@ -16,6 +16,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,8 +64,20 @@ public class MainActivity extends AppCompatActivity {
     Boolean udahDiscan=false;
     TextView tx;
     RelativeLayout loadingPage;
+    boolean hasInflated= false;
 
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+
+    /*@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        try {
+            cameraSource.start(cameraView.getHolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }*/
 
     @Override
     protected void onResume() {
@@ -95,16 +108,16 @@ public class MainActivity extends AppCompatActivity {
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                    try {
-                        cameraSource.start(cameraView.getHolder());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                /*if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
                 } else{
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                }*/
+                try {
+                    cameraSource.start(cameraView.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -117,11 +130,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         navView = findViewById(R.id.botNav);
 
         switch (getIntent().getStringExtra("userLevel").toUpperCase()){
             case Peran.GAME:
                 tx.setVisibility(View.GONE);
+                inflateMenu(R.menu.bottom_navigation_item_game);
                 navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -139,9 +154,11 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+                navView.setSelectedItemId(R.id.navigation_add);
                 break;
             case Peran.PANITIA:
                 tx.setVisibility(View.GONE);
+                inflateMenu(R.menu.bottom_navigation_item_panitia);
                 navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -159,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+                navView.setSelectedItemId(R.id.navigation_minus);
                 break;
             case Peran.STARTUP:
                 navView.setVisibility(View.GONE);
@@ -171,6 +189,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    void inflateMenu(int id){
+        if(!hasInflated){
+            navView.inflateMenu(id);
+            hasInflated= true;
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -274,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestServer(String url, final String valueID, final String jenis){
 //        Toast.makeText(MainActivity.this, url, Toast.LENGTH_LONG).show();
+        Log.e("TES_A", "url= " +url);
         RequestQueue requestQueue= Volley.newRequestQueue(MainActivity.this);
         StringRequest request= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

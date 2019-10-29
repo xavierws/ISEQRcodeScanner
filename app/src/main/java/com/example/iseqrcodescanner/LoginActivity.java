@@ -1,10 +1,16 @@
 package com.example.iseqrcodescanner;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +39,21 @@ public class LoginActivity extends AppCompatActivity {
     EditText username, password;
     String server_url;
     LoginHelper loginHelper;
+/*
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 0:
+                checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+                break;
+            case 1:
+                checkPermission(Manifest.permission.CAMERA, 2);
+                break;
+        }
 
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +62,20 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.button_login);
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
+
+        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }*/
+//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 0);
+
+        String permission[]= new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+        };
+        ActivityCompat.requestPermissions(this, permission, 1);
 
 
         if(ParamGenerator.Companion.cekTokenLokal()){
@@ -57,12 +91,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     public void reqServer(String server_url, final String username){
 
         //Toast.makeText(LoginActivity.this, server_url, Toast.LENGTH_LONG).show();
+        Log.e("TES_A", "URL= " +server_url);
         final RequestQueue requestQueue= Volley.newRequestQueue(LoginActivity.this);
         JsonObjectRequest request= new JsonObjectRequest(Request.Method.POST, server_url, null,
                 new Response.Listener<JSONObject>() {
@@ -108,5 +142,13 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, "You're logged in as " +peran, Toast.LENGTH_LONG).show();
         startActivity(i);
         finish();
+    }
+
+    public void checkPermission(String permission, int reqCode){
+        if(ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED){
+
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, reqCode);
+        }
     }
 }

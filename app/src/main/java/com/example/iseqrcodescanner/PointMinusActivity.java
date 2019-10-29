@@ -33,10 +33,12 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
     Spinner spinner;
     List<String> itemStr = new ArrayList<>();
     List<String> itemIdStr= new ArrayList<>();
-    String IDTerpilih;
+    String IDTerpilih= ".";
+    String IDTerpilihLalu= "";
     Button btnTukar;
     TextView txID;
     TextView txPoint;
+    int skorKurangKali= 0;
 
 
 
@@ -154,7 +156,16 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                     public void onResponse(String response) {
 
                         // Toast.makeText(PointMinusActivity.this, "respon bro = " +response, Toast.LENGTH_LONG).show();
-                        if(!response.equals(_Alias.Companion.respon("gak"))){
+                        if(response.equals("SKOR_KURANG")){
+                            String strRespon= "Sorry, your score is not enough";
+                            if(!IDTerpilih.equals(IDTerpilihLalu))
+                                skorKurangKali= 0;
+                            if(skorKurangKali++ >= 3)
+                                strRespon= "Jangan ngeyel ya...";
+
+                            Toast.makeText(PointMinusActivity.this, strRespon, Toast.LENGTH_LONG).show();
+                            IDTerpilihLalu= IDTerpilih;
+                        } else if(!response.equals(_Alias.Companion.respon("gak"))){
                             Toast.makeText(PointMinusActivity.this, "success", Toast.LENGTH_LONG).show();
                             finish();
                         }

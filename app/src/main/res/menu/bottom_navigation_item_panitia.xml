@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_minus"
+        android:icon="@drawable/ic_minuspoint"
+        android:title="@string/title_minus"
+        android:iconTint="@color/colorPrimary" android:checked="true" />
+
+    <item
+        android:id="@+id/navigation_check"
+        android:icon="@drawable/baseline_visibility_white_48dp"
+        android:title="@string/title_check"
+        android:iconTint="@color/colorPrimary" android:checked="true" />
+</menu>

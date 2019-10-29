@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_pluspoint"
+        android:title="@string/title_add"
+        android:iconTint="@color/colorPrimary" android:checked="true" />
+
+    <item
+        android:id="@+id/navigation_check"
+        android:icon="@drawable/baseline_visibility_white_48dp"
+        android:title="@string/title_check"
+        android:iconTint="@color/colorPrimary" android:checked="true" />
+</menu>
