@@ -277,7 +277,10 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
                         try{
                             if(response.equals("UDAH_ADA")){
-                                Toast.makeText(MainActivity.this, "You have scanned this visitor", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "You have already scanned this visitor", Toast.LENGTH_LONG).show();
+                                udahDiscan(false);
+                            }else if(response.equals("BATAS_MAKS")){
+                                Toast.makeText(MainActivity.this, "This visitor had been scanned for 5 times", Toast.LENGTH_LONG).show();
                                 udahDiscan(false);
                             } else if(jenis.equals(Peran.LOG_OUT)) {
                                 LoginHelper.Companion.hapusTokenPeran();

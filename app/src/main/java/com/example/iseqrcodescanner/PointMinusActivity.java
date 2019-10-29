@@ -64,13 +64,18 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
         txID.setText(idUser);
         txPoint.setText(point);
 
-        btnTukar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = ParamGenerator.Companion.tukarUrl(idUser, IDTerpilih);
-                reqServerTukar(url);
-            }
-        });
+        try{
+            btnTukar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = ParamGenerator.Companion.tukarUrl(idUser, IDTerpilih);
+                    reqServerTukar(url);
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(PointMinusActivity.this, "there's no data retrieve", Toast.LENGTH_LONG).show();
+        }
+
 
 
     }
