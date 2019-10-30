@@ -33,7 +33,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
     Spinner spinner;
     List<String> itemStr = new ArrayList<>();
     List<String> itemIdStr= new ArrayList<>();
-    String IDTerpilih= ".";
+    String IDTerpilih= "";
     String IDTerpilihLalu= "";
     Button btnTukar;
     TextView txID;
@@ -100,7 +100,6 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                     public void onResponse(JSONArray response) {
 
                        // Toast.makeText(PointMinusActivity.this, "respon bro = " +response, Toast.LENGTH_LONG).show();
-
                         try{
 //                            res = new JSONArray(response.substring(1, response.length() - 1));
 /*
@@ -124,7 +123,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(dataAdapter);
                         }catch (Exception e){
-                            Toast.makeText(PointMinusActivity.this, "error bro e = " +e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(PointMinusActivity.this, "error", Toast.LENGTH_LONG).show();
 
                             Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
                             Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
@@ -134,7 +133,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PointMinusActivity.this, "Sorry can't connect to server e=" + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PointMinusActivity.this, "Sorry can't connect to server", Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.add(request);
@@ -173,7 +172,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PointMinusActivity.this, "Sorry can't connect to server e=" + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PointMinusActivity.this, "Sorry can't connect to server", Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.add(request);

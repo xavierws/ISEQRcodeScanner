@@ -66,19 +66,6 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout loadingPage;
     boolean hasInflated= false;
 
-    private static final int REQUEST_CAMERA_PERMISSION = 1;
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        try {
-            cameraSource.start(cameraView.getHolder());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -86,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         udahDiscan(false);
 
         tx= findViewById(R.id.tx_startup);
-        cameraView = (SurfaceView) findViewById(R.id.cameraView);
+        cameraView = findViewById(R.id.cameraView);
         surfaceHolder = cameraView.getHolder();
 
         barcode = new BarcodeDetector.Builder(this)
@@ -108,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                /*if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-
-                } else{
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                }*/
                 try {
                     cameraSource.start(cameraView.getHolder());
                 } catch (IOException e) {
@@ -132,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         navView = findViewById(R.id.botNav);
-
         switch (getIntent().getStringExtra("userLevel").toUpperCase()){
             case Peran.GAME:
                 tx.setVisibility(View.GONE);
@@ -143,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()){
                             case R.id.navigation_add:
                                 scanBarcode(PointPlusActivity.class, Peran.PLUS_URL, barcode, cameraSource);
-                                break;
-                            case R.id.navigation_minus:
-                                Toast.makeText(MainActivity.this, "sorry you can't access this", Toast.LENGTH_LONG).show();
                                 break;
                             case R.id.navigation_check:
                                 scanBarcode(PointPlusActivity.class, Peran.CEK_URL, barcode, cameraSource);
@@ -163,9 +141,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         switch (menuItem.getItemId()){
-                            case R.id.navigation_add:
-                                Toast.makeText(MainActivity.this, "sorry you can't access this", Toast.LENGTH_LONG).show();
-                                break;
                             case R.id.navigation_minus:
                                 scanBarcode(PointPlusActivity.class, Peran.MINUS_URL, barcode, cameraSource);
                                 break;

@@ -39,21 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText username, password;
     String server_url;
     LoginHelper loginHelper;
-/*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case 0:
-                checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-                break;
-            case 1:
-                checkPermission(Manifest.permission.CAMERA, 2);
-                break;
-        }
 
-    }
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.button_login);
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
-
-        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }*/
-//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 0);
 
         String permission[]= new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -109,15 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String id= response.getString(_Alias.Companion.getLain()[8]);
                                 String token = response.getString(_Alias.Companion.getLain()[0]);
 
-//                                FileTool.Companion.simpanln(_Alias.Companion.getLoginDir(), token, false);
-//                                FileTool.Companion.simpanln(_Alias.Companion.getLoginDir(), peran, true);
                                 LoginHelper.Companion.simpanTokenPeran(token, id, username, peran);
-                                /*Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                i.putExtra("userLevel", peran);
-                                Toast.makeText(LoginActivity.this, peran, Toast.LENGTH_LONG).show();
-                                startActivity(i);
-                                finish();*/
-
                                 pindahHalaman(peran);
                             }
                         }catch (Exception e){
@@ -144,11 +115,4 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    public void checkPermission(String permission, int reqCode){
-        if(ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED){
-
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, reqCode);
-        }
-    }
 }
