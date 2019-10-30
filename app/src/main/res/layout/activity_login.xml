@@ -11,8 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="-50dp"
+        android:layout_marginTop="-70dp"
         android:src="@drawable/pic_ornamen_login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/colorWhite"/>
+
+    <ImageView
+        android:id="@+id/logo_icon"
+        android:src="@drawable/logo_icon"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-350dp"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_centerInParent="true"
@@ -25,7 +42,8 @@
             android:layout_height="wrap_content"
             android:hint="username"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="180dp"
+            android:textColorHighlight="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/password"
@@ -34,7 +52,9 @@
             android:layout_below="@id/username"
             android:hint="password"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"
+            android:textColorHighlight="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/button_login"

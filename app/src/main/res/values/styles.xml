@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/robotomono_regular</item>
     </style>
 
     <!-- the theme applied to the application or activity -->
@@ -38,6 +39,7 @@
         <!--For compatibility-->
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:fontFamily">@font/robotomono_regular</item>
     </style>
 
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar.Solid">
@@ -50,6 +52,7 @@
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--item name="android:background">@color/colorWhite</item-->
+        <item name="android:fontFamily">@font/robotomono_regular</item>
     </style>
 
 </resources>
