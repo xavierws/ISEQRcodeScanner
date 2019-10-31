@@ -60,10 +60,13 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
         spinner.setOnItemSelectedListener(this);
 
         String url = ParamGenerator.Companion.liatUrl(_Alias.Companion.getNamaTabel()[1]);
+/*
         Log.e("TEST_BLA", "url= " +url);
         Log.e("TEST_BLA", "url= " +url);
         Log.e("TEST_BLA", "url= " +url);
         Log.e("TEST_BLA", "url= " +url);
+
+ */
         requestServer(url);
 
         final String idUser=getIntent().getStringExtra("idMinus");
@@ -168,7 +171,10 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                             Toast.makeText(PointMinusActivity.this, strRespon, Toast.LENGTH_LONG).show();
                             IDTerpilihLalu= IDTerpilih;
                             udahKlik(false);
-                        } else if(!response.equals(_Alias.Companion.respon("gak"))){
+                        } else if(response.equals("GAK_ADA")){
+                            Toast.makeText(PointMinusActivity.this, "Sorry this visitor doesnt exist", Toast.LENGTH_LONG).show();
+                            udahKlik(false);
+                        }  else if(!response.equals(_Alias.Companion.respon("gak"))){
                             Toast.makeText(PointMinusActivity.this, "success", Toast.LENGTH_LONG).show();
                             finish();
                         }

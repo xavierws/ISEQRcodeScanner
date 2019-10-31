@@ -275,13 +275,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestServer(String url, final String valueID, final String jenis){
 //        Toast.makeText(MainActivity.this, url, Toast.LENGTH_LONG).show();
-        Log.e("TES_A", "url= " +url);
+//        Log.e("TES_A", "url= " +url);
         RequestQueue requestQueue= Volley.newRequestQueue(MainActivity.this);
         StringRequest request= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+//                        Log.e("TES_AB", "response mainAct= " +response);
                         try{
                             if(response.equals("UDAH_ADA")){
                                 Toast.makeText(MainActivity.this, "You have already scanned this visitor", Toast.LENGTH_LONG).show();
@@ -289,7 +290,10 @@ public class MainActivity extends AppCompatActivity {
                             }else if(response.equals("BATAS_MAKS")){
                                 Toast.makeText(MainActivity.this, "This visitor had been scanned for 5 times", Toast.LENGTH_LONG).show();
                                 udahDiscan(false);
-                            } else if(jenis.equals(Peran.LOG_OUT)) {
+                            }else if(response.equals("GAK_ADA")){
+                                Toast.makeText(MainActivity.this, "Sorry this visitor doesnt exist", Toast.LENGTH_LONG).show();
+                                udahDiscan(false);
+                            }  else if(jenis.equals(Peran.LOG_OUT)) {
                                 LoginHelper.Companion.hapusTokenPeran();
                                 Intent i = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(i);
