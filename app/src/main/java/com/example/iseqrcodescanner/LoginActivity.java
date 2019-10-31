@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,12 +40,17 @@ public class LoginActivity extends AppCompatActivity {
     EditText username, password;
     String server_url;
     LoginHelper loginHelper;
+    boolean udahKlik= false;
+    RelativeLayout loadingPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        udahKlik=false;
+
+        loadingPage = findViewById(R.id.loading_page);
         btn = findViewById(R.id.button_login);
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
@@ -64,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    udahKlik(true);
                     String usernameStr = username.getText().toString();
                     String urlLogin = ParamGenerator.Companion.masukUrl(usernameStr, password.getText().toString()); //tambah get text ambil dari edittext
                     reqServer(urlLogin, usernameStr);
@@ -93,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }catch (Exception e){
                             Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_LONG).show();
+                            udahKlik(false);
                         }
                         //Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
                     }
@@ -102,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "sorry couldn't connect to server e=" + error.getMessage(), Toast.LENGTH_LONG).show();
                 error.printStackTrace();
                 requestQueue.stop();
+                udahKlik(false);
             }
         });
         requestQueue.add(request);
@@ -113,6 +122,15 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, "You're logged in as " +peran, Toast.LENGTH_LONG).show();
         startActivity(i);
         finish();
+    }
+
+    void udahKlik(boolean udah){
+        udahKlik= udah;
+        if(udah){
+            loadingPage.setVisibility(View.VISIBLE);
+        }else {
+            loadingPage.setVisibility(View.GONE);
+        }
     }
 
 }

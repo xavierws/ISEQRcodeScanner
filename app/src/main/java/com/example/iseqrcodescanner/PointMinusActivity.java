@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
     TextView txID;
     TextView txPoint;
     int skorKurangKali= 0;
+    boolean udahKlik=false;
+    RelativeLayout loadingPage;
 
 
 
@@ -47,6 +50,8 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_minus);
 
+        udahKlik=false;
+        loadingPage=findViewById(R.id.loading_page);
         txID= findViewById(R.id.tx_id);
         txPoint= findViewById(R.id.point);
         spinner=findViewById(R.id.spinner);
@@ -70,6 +75,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
             btnTukar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    udahKlik(true);
                     String url = ParamGenerator.Companion.tukarUrl(idUser, IDTerpilih);
                     reqServerTukar(url);
                 }
@@ -77,8 +83,6 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
         }catch (Exception e){
             Toast.makeText(PointMinusActivity.this, "there's no data retrieve", Toast.LENGTH_LONG).show();
         }
-
-
 
     }
 
@@ -153,7 +157,6 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         // Toast.makeText(PointMinusActivity.this, "respon bro = " +response, Toast.LENGTH_LONG).show();
                         if(response.equals("SKOR_KURANG")){
                             String strRespon= "Sorry, your score is not enough";
@@ -164,6 +167,7 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
 
                             Toast.makeText(PointMinusActivity.this, strRespon, Toast.LENGTH_LONG).show();
                             IDTerpilihLalu= IDTerpilih;
+                            udahKlik(false);
                         } else if(!response.equals(_Alias.Companion.respon("gak"))){
                             Toast.makeText(PointMinusActivity.this, "success", Toast.LENGTH_LONG).show();
                             finish();
@@ -173,8 +177,18 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(PointMinusActivity.this, "Sorry can't connect to server", Toast.LENGTH_LONG).show();
+                udahKlik(false);
             }
         });
         requestQueue.add(request);
+    }
+
+    void udahKlik(boolean udah){
+        udahKlik= udah;
+        if(udah){
+            loadingPage.setVisibility(View.VISIBLE);
+        }else {
+            loadingPage.setVisibility(View.GONE);
+        }
     }
 }
