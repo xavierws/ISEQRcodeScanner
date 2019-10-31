@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         loadingPage = findViewById(R.id.loading_page);
         udahDiscan(false);
 

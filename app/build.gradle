@@ -4,13 +4,15 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
+    buildToolsVersion = '29.0.2'
     defaultConfig {
         applicationId "com.example.iseqrcodescanner"
         minSdkVersion 20
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {

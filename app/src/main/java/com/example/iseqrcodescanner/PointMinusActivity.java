@@ -129,9 +129,9 @@ public class PointMinusActivity extends AppCompatActivity implements AdapterView
                         }catch (Exception e){
                             Toast.makeText(PointMinusActivity.this, "error", Toast.LENGTH_LONG).show();
 
-                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
-                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
-                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
+//                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
+//                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
+//                            Log.e("TEST_BLA", "ERROR requ json e =" +e.getMessage());
                         }
                     }
                 }, new Response.ErrorListener() {

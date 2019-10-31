@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, "sorry couldn't connect to server e=" + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "sorry couldn't connect to server", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
                 requestQueue.stop();
                 udahKlik(false);

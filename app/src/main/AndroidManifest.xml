@@ -2,11 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.iseqrcodescanner">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_ise"
+        android:icon="@drawable/logo_barscan"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_ise"
+        android:roundIcon="@drawable/logo_barscan"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity
@@ -33,14 +40,10 @@
         <activity android:name=".MainActivity" />
     </application>
 
+<!--
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
+-->
 
 </manifest>
